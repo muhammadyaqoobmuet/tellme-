@@ -1,7 +1,7 @@
-import mongoose, { Model,  Schema } from "mongoose";
+import mongoose, { Document, Model, Schema } from "mongoose";
 import { IMessage } from "./message.models";
 
-export interface IUser {
+export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
@@ -59,4 +59,5 @@ export const UserSchema: Schema<IUser> = new Schema({
 // nextjs Run on edge it doesnot know either app is already booted instead it bootup again and again so to avoid overhead use checks
 
 export const UserModel =
-  (mongoose.models.User as Model<IUser>) || mongoose.model<IUser>("User", UserSchema);
+  (mongoose.models.User as Model<IUser>) ||
+  mongoose.model<IUser>("User", UserSchema);
