@@ -9,6 +9,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
   await dbConnect();
   try {
+    // get session we have had created in auth
     const session = await getServerSession(authOptions);
 
     const user: User = session?.user as User;
@@ -65,6 +66,7 @@ export async function POST(req: Request) {
 export async function GET() {
   await dbConnect();
   try {
+    // one point to note down that we gets eesion then we get user from that session because we have injected that session  from next auth
     const session = await getServerSession(authOptions);
 
     const user: User = session?.user as User;
