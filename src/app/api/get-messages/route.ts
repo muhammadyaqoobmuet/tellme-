@@ -6,7 +6,6 @@ import { authOptions } from "../auth/[...nextauth]/options";
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
 
-// get messages
 export async function GET() {
   await dbConnect();
   try {
@@ -24,8 +23,19 @@ export async function GET() {
 
     const user = await UserModel.aggregate([
       { $match: { _id: userId } },
-      { $unwind: "$messages" }, // ✅ Fixed $unwind
+      {
+        $lookup: {
+          from: "messages", // the collection name for messages
+          localField: "messages",
+          foreignField: "_id",
+          as: "messages",
+        },
+      },
+      // Unwind the messages array to sort each message individually
+      { $unwind: "$messages" },
+      // Sort messages by createdAt in descending order
       { $sort: { "messages.createdAt": -1 } },
+      // Group them back into an array
       {
         $group: {
           _id: "$_id",
@@ -34,17 +44,16 @@ export async function GET() {
       },
     ]);
 
+    console.log(user);
+
     if (!user || user.length === 0) {
       return NextResponse.json(
-        { message: "User not found", success: false },
-        { status: 404 }
+        { message: "No messages", success: false },
+        { status: 200 }
       );
     }
 
-    return NextResponse.json(
-      { messages: user[0].messages }, // ✅ Fixed array access
-      { status: 200 }
-    );
+    return NextResponse.json({ messages: user[0].messages }, { status: 200 });
   } catch (e) {
     console.error(e);
     return NextResponse.json(
