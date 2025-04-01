@@ -123,7 +123,7 @@ export default function Signin() {
             <Button
               disabled={isSubmitingForm}
               type="submit"
-              className="w-full py-6  rounded-xl font-medium text-lg transition-all"
+              className="w-full py-6  bg-purple-700 hover:bg-purple-800 rounded-xl font-medium text-lg transition-all"
             >
               {isSubmitingForm ? (
                 <div className="flex items-center justify-center gap-2">

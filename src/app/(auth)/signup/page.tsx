@@ -190,7 +190,7 @@ const SignUp = () => {
               )}
             />
 
-            <Button disabled={isSubmitingForm} type="submit" className="w-full">
+            <Button disabled={isSubmitingForm} type="submit" className="w-full bg-purple-700 hover:bg-purple-800 text-white">
               {isSubmitingForm ? (
                 <div className="flex items-center justify-center gap-2">
                   <Loader2 className="animate-spin  w-5 h-5" />
