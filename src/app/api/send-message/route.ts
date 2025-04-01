@@ -1,13 +1,15 @@
 import { dbConnect } from "@/lib/dbConnect";
+import { IMessage, MessageModel } from "@/models/message.models";
 import { UserModel } from "@/models/user.model";
-import { IMessage } from "@/models/message.models";
-import { NextResponse } from "next/server";
+import mongoose from "mongoose";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   await dbConnect();
-  const { username, content } = await req.json();
+  const { username, content } = await request.json();
+
   try {
     const user = await UserModel.findOne({ username }).exec();
+
     if (!user) {
       return Response.json(
         { message: "User not found", success: false },
@@ -15,6 +17,7 @@ export async function POST(req: Request) {
       );
     }
 
+    // Check if the user is accepting messages
     if (!user.isAcceptingMessage) {
       return Response.json(
         { message: "User is not accepting messages", success: false },
@@ -22,22 +25,30 @@ export async function POST(req: Request) {
       );
     }
 
-    const newMessage = { content, createdAt: new Date() };
+    const newMessage = new MessageModel({
+      _id: new mongoose.Types.ObjectId(),
+      user: user._id, // (optional: add reference to user if needed)
+      content,
+      createdAt: new Date(),
+    });
+    await newMessage.save();
 
-    user.messages.push(newMessage as IMessage);
+    // **Push only the message _id into the user's messages array**
+    user.messages.push(newMessage._id);
     await user.save();
 
     return Response.json(
-      { message: "Message sent successfully", success: true },
+      {
+        message: "Message sent successfully",
+        success: true,
+        newMessage,
+      },
       { status: 201 }
     );
-  } catch (e) {
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          e instanceof Error ? e.message : "error while sending messages",
-      },
+  } catch (error) {
+    console.error("Error adding message:", error);
+    return Response.json(
+      { message: "Internal server error", success: false },
       { status: 500 }
     );
   }
