@@ -92,7 +92,10 @@ export async function GET() {
     }
 
     return NextResponse.json(
-      { success: true, message: userAccpetingMessages.isAcceptingMessage },
+      {
+        success: true,
+        isAcceptingMessages: userAccpetingMessages.isAcceptingMessage,
+      },
       { status: 200 }
     );
   } catch (e) {
