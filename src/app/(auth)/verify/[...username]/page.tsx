@@ -8,46 +8,76 @@ import {
 import { Button } from "@/components/ui/button";
 
 import { useParams, useRouter } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import { toast } from "sonner";
 import { motion } from "framer-motion";
 
-import axios from "axios";
+import axios, { AxiosError } from "axios";
+import { ApiResponse } from "@/types/ApiResponse";
 
 const Verify = () => {
   const params = useParams();
   const username = params.username;
   const [otp, setOtp] = useState("");
   const [isVerifying, setIsVerifying] = useState(false);
-
-  // Form handling
-
+  const [resendCooldown, setResendCooldown] = useState(0);
   const router = useRouter();
 
-  const handleComplete = (value) => {
+  // Start countdown timer when resendCooldown > 0
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (resendCooldown > 0) {
+      timer = setInterval(() => {
+        setResendCooldown((prev) => {
+          if (prev <= 1) {
+            clearInterval(timer);
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(timer);
+  }, [resendCooldown]);
+
+  const handleComplete = (value: string) => {
     setOtp(value);
+  };
+
+  const sendAgain = async () => {
+    if (resendCooldown > 0) return; // Prevent resend if still in cooldown
+
+    try {
+      const response = await axios.get(`/api/sendmail/${username}`);
+      if (response.data.message) {
+        toast.success(response.data.message);
+        // Set a 60-second cooldown
+        setResendCooldown(60);
+      }
+    } catch (error) {
+      const axiosError = error as AxiosError<ApiResponse>;
+      console.error(axiosError);
+      toast(axiosError.response?.data.message ?? "Failed to send email");
+    }
   };
 
   const handleVerify = async () => {
     if (otp.length === 6) {
       setIsVerifying(true);
-      // Simulate verification process
       if (username.length > 0) {
         try {
           const response = await axios.post("/api/verifycode", {
             username,
             code: otp,
           });
-         
+
           console.log(response);
-          if (response?.data?.success || response?.data?.status == 200) {
-           
+          if (response?.data?.success || response?.data?.status === 200) {
             router.replace("/signin");
-            toast("success", {
+            toast.success("success", {
               description: response?.data?.message,
             });
-           
           }
         } catch (error) {
           console.log(error.response.data.message);
@@ -112,8 +142,14 @@ const Verify = () => {
             <div className="mt-8">
               <p className="text-gray-400 text-sm text-center mb-4">
                 Didn&apos;t receive a code?{" "}
-                <button className="text-blue-400 hover:text-blue-300 underline transition">
-                  Resend
+                <button
+                  onClick={sendAgain}
+                  disabled={resendCooldown > 0}
+                  className="text-blue-400 hover:text-blue-300 underline transition"
+                >
+                  {resendCooldown > 0
+                    ? `Resend in ${resendCooldown}s`
+                    : "Resend"}
                 </button>
               </p>
             </div>
