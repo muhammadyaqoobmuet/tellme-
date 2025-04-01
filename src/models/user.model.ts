@@ -9,7 +9,7 @@ export interface IUser extends Document {
   verifyCodeExpiry: Date;
   isVerified: boolean;
   isAcceptingMessage: boolean;
-  messages: IMessage[];
+  messages: mongoose.Types.ObjectId[];
 }
 
 export const UserSchema: Schema<IUser> = new Schema({
@@ -48,12 +48,7 @@ export const UserSchema: Schema<IUser> = new Schema({
     type: Boolean,
     default: true,
   },
-  messages: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message",
-    },
-  ],
+  messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "Message" }],
 });
 
 // nextjs Run on edge it doesnot know either app is already booted instead it bootup again and again so to avoid overhead use checks
