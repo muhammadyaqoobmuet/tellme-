@@ -7,8 +7,10 @@
 </p>
 
 <p align="center">
-  <a href="(https://tellme-eta.vercel.app/)">Live Demo</a>
+  🚀 <a href="https://tellme-eta.vercel.app/" target="_blank" style="font-size:20px; font-weight:bold;">Live Demo</a> 🌍
 </p>
+
+
 
 **Receive Mysterious Messages From Anyone.**  
 Share your personal TellMe link and get anonymous messages, confessions, and surprises from friends and strangers.
