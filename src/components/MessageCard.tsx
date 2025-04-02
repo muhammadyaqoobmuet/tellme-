@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Send, Trash2, X } from "lucide-react";
 
-
 interface MessageCardProps {
   message?: string;
-  timestamp?: unknown;
+  timestamp?: string | number;
   isRead?: boolean;
   messageType?: string;
-  messageId: unknown;
+  messageId: string;
   rotationClass?: string;
   onDelete: (messageId: string) => void;
   borderColor?: string;
