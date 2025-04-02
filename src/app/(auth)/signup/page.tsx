@@ -120,7 +120,7 @@ const SignUp = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Username</FormLabel>
+                  <FormLabel className="text-gray-600">Username</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -156,7 +156,7 @@ const SignUp = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel className="text-gray-600">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -174,7 +174,7 @@ const SignUp = () => {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel className="text-gray-600">Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}

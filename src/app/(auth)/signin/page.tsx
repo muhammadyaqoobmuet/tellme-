@@ -87,7 +87,7 @@ export default function Signin() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">Email</FormLabel>
+                  <FormLabel className="text-gray-600">Email</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
@@ -106,7 +106,7 @@ export default function Signin() {
               control={form.control}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-gray-300">Password</FormLabel>
+                  <FormLabel className="text-gray-600">Password</FormLabel>
                   <FormControl>
                     <Input
                       {...field}
