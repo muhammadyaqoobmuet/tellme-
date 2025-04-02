@@ -33,7 +33,7 @@ const Dashboard = () => {
   const handleDeleteMessage = async (messageId: string) => {
     try {
       setMessages((prevMessages) =>
-        prevMessages.filter((message) => message._id !== messageId)
+        prevMessages.filter((message) => message._id?.toString() !== messageId)
       );
 
       const response = await axios.delete<ApiResponse>(
@@ -230,8 +230,8 @@ const Dashboard = () => {
               {messages.length > 0 ? (
                 messages.map((message) => (
                   <MessageCard
-                    key={message._id as string}
-                    messageId={message._id}
+                    key={message._id?.toString() as string}
+                    messageId={message._id.toString()}
                     message={message.content}
                     timestamp={new Date(message.createdAt).toLocaleString()}
                     onDelete={handleDeleteMessage}
