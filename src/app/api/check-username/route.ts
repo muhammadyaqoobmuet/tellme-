@@ -1,16 +1,24 @@
 import { dbConnect } from "@/lib/dbConnect";
 import { UserModel } from "@/models/user.model";
-import { usernameValidation } from "@/schemas/signUpSchema";
+
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-export const usernameQuerySchema = z.object({
-  username: usernameValidation,
-});
-
-type UsernameQuery = z.infer<typeof usernameQuerySchema>;
-
 export async function GET(req: Request) {
+  const usernameValidation = z
+    .string()
+    .min(2, "username should be of atleast two chars")
+    .max(20, "username should be less than 20 chars")
+    .regex(
+      /^[a-zA-Z0-9_]+$/,
+      "username must contains CAPITAL lowercase and digits and does not cotains special chars"
+    );
+
+  const usernameQuerySchema = z.object({
+    username: usernameValidation,
+  });
+
+  type UsernameQuery = z.infer<typeof usernameQuerySchema>;
   try {
     await dbConnect();
     const { searchParams } = new URL(req.url);

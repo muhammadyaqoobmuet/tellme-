@@ -4,11 +4,10 @@ import nodemailer from "nodemailer";
 
 export async function GET(
   request: Request,
-  context: { params: { username: string } }
+  { params }: { params: Promise<{ username: string }> }
 ) {
   // Convert the incoming request to JSON
-  const { params } = context;
-  const username = params?.username; //
+  const { username } = await params;
 
   await dbConnect();
   const user = await UserModel.findOne({ username });
