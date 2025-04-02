@@ -1,14 +1,13 @@
-import mongoose, { Document, Schema } from "mongoose";
-
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 export interface IMessage extends Document {
-  
+  _id: Types.ObjectId;
   content: string;
   createdAt: Date;
 }
 
 export const MessageSchema: Schema<IMessage> = new Schema({
-  
+  _id: { type: Schema.Types.ObjectId, required: true, auto: true },
   content: {
     type: String,
     required: true,
