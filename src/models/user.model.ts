@@ -1,5 +1,5 @@
 import mongoose, { Document, Model, Schema } from "mongoose";
-import { IMessage } from "./message.models";
+
 
 export interface IUser extends Document {
   username: string;

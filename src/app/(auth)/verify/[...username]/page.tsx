@@ -15,6 +15,7 @@ import { motion } from "framer-motion";
 
 import axios, { AxiosError } from "axios";
 import { ApiResponse } from "@/types/ApiResponse";
+import Link from "next/link";
 
 const Verify = () => {
   const params = useParams();
@@ -191,9 +192,12 @@ const Verify = () => {
         </Button>
 
         <div className="text-center">
-          <button className="text-gray-400 hover:text-gray-300 text-sm transition">
+          <Link
+            href={"/signup"}
+            className="text-gray-400 hover:text-gray-300 text-sm transition"
+          >
             Back to login
-          </button>
+          </Link>
         </div>
       </motion.div>
     </div>

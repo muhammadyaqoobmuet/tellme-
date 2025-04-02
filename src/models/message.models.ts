@@ -1,11 +1,14 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+
 export interface IMessage extends Document {
+  
   content: string;
   createdAt: Date;
 }
 
 export const MessageSchema: Schema<IMessage> = new Schema({
+  
   content: {
     type: String,
     required: true,

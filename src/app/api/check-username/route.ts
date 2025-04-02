@@ -4,21 +4,22 @@ import { usernameValidation } from "@/schemas/signUpSchema";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
-export const usernameQureySchema = z.object({
+export const usernameQuerySchema = z.object({
   username: usernameValidation,
 });
+
+type UsernameQuery = z.infer<typeof usernameQuerySchema>;
 
 export async function GET(req: Request) {
   try {
     await dbConnect();
     const { searchParams } = new URL(req.url);
-    const qureyParam = {
+    const qureyParam: UsernameQuery = {
       username: searchParams.get("username"),
     };
 
     // validate with zod and respone back
-    const result = usernameQureySchema.safeParse(qureyParam);
-    console.log(result);
+    const result = usernameQuerySchema.safeParse(qureyParam);
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];
       return NextResponse.json(
@@ -26,8 +27,8 @@ export async function GET(req: Request) {
           success: false,
           message:
             usernameErrors.length > 0
-              ? usernameErrors.join(",")
-              : "invalid params",
+              ? usernameErrors.join(", ")
+              : "Invalid username parameter",
         },
         { status: 400 }
       );

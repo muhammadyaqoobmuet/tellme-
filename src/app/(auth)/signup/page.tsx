@@ -19,7 +19,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {Loader2} from "lucide-react"
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -77,7 +77,7 @@ const SignUp = () => {
     try {
       const response = await axios.post<ApiResponse>("/api/signup", data);
       if (response.status == 200 || response.data.message) {
-        toast("Success", {
+        toast.success("Success", {
           description: response.data.message,
           action: {
             label: "ok",
@@ -115,7 +115,6 @@ const SignUp = () => {
 
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-            
             <FormField
               name="username"
               control={form.control}
@@ -132,7 +131,6 @@ const SignUp = () => {
                       }}
                       placeholder="Enter your username"
                     />
-
                   </FormControl>
                   <FormMessage />
                   {isCheckingUsername && (
@@ -190,7 +188,11 @@ const SignUp = () => {
               )}
             />
 
-            <Button disabled={isSubmitingForm} type="submit" className="w-full bg-purple-700 hover:bg-purple-800 text-white">
+            <Button
+              disabled={isSubmitingForm}
+              type="submit"
+              className="w-full bg-purple-700 hover:bg-purple-800 text-white"
+            >
               {isSubmitingForm ? (
                 <div className="flex items-center justify-center gap-2">
                   <Loader2 className="animate-spin  w-5 h-5" />

@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { LogOut, Menu, User, BarChart } from "lucide-react";
+import { LogOut, Menu,   } from "lucide-react";
 
 const NavBar = () => {
   const { data: session } = useSession();

@@ -1,7 +1,8 @@
 import { dbConnect } from "@/lib/dbConnect";
-import { IMessage, MessageModel } from "@/models/message.models";
+import { MessageModel } from "@/models/message.models";
 import { UserModel } from "@/models/user.model";
 import mongoose from "mongoose";
+
 
 export async function POST(request: Request) {
   await dbConnect();
@@ -35,6 +36,7 @@ export async function POST(request: Request) {
 
     // **Push only the message _id into the user's messages array**
     user.messages.push(newMessage._id);
+    
     await user.save();
 
     return Response.json(

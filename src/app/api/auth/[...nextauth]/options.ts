@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -13,7 +14,7 @@ export const authOptions: NextAuthOptions = {
         username: { label: "Email", type: "text", placeholder: "jsmith" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials: any, ): Promise<any> {
+      async authorize(credentials: any): Promise<any> {
         try {
           await dbConnect();
           const user = await UserModel.findOne({
@@ -40,7 +41,7 @@ export const authOptions: NextAuthOptions = {
           } else {
             throw new Error("incorrect passowrd or email");
           }
-        } catch (error: any) {
+        } catch (error) {
           throw new Error(error);
         }
       },
