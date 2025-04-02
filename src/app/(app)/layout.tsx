@@ -16,7 +16,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "tellme",
-  description: "a app to recive mystrious messages from randoms ",
+  description:
+    "a app to recive mystrious messages from randoms you share link with",
 };
 
 export default function RootLayout({
