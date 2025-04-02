@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  <a href="https://tellme-app.vercel.app">Live Demo</a>
+  <a href="(https://tellme-eta.vercel.app/)">Live Demo</a>
 </p>
 
 **Receive Mysterious Messages From Anyone.**  
