@@ -27,7 +27,10 @@ const NavBar = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/" className="hover:text-purple-400 transition-colors">
+            <Link
+              href={user ? "/dashboard" : "/"}
+              className="hover:text-purple-400 transition-colors"
+            >
               Home
             </Link>
 
@@ -100,7 +103,7 @@ const NavBar = () => {
         {isMenuOpen && (
           <div className="md:hidden pt-4 pb-2 mt-2 border-t border-white/10 flex flex-col space-y-4">
             <Link
-              href="/"
+              href={user ? "/dashboard" : "/"}
               className="hover:text-purple-400 transition-colors py-2"
               onClick={() => setIsMenuOpen(false)}
             >
