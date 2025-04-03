@@ -2,11 +2,12 @@
 import { useState } from "react";
 import { useSession, signOut } from "next-auth/react";
 import Link from "next/link";
-import { LogOut, Menu,   } from "lucide-react";
+import { LogOut, Menu } from "lucide-react";
 
 const NavBar = () => {
   const { data: session } = useSession();
   const user = session?.user;
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -53,7 +54,7 @@ const NavBar = () => {
                 <div className="flex items-center gap-4 ml-4 pl-4 border-l border-white/20">
                   <div className="flex items-center gap-2">
                     <div className="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white">
-                      {user.name?.charAt(0).toUpperCase() || "U"}
+                      {user?.username?.charAt(0).toUpperCase() || "U"}
                     </div>
                     <span className="font-medium">
                       {user?.username || "User"}
@@ -132,9 +133,11 @@ const NavBar = () => {
                 <div className="pt-2 mt-2 border-t border-white/10">
                   <div className="flex items-center gap-2 py-2">
                     <div className="h-8 w-8 rounded-full bg-purple-500 flex items-center justify-center text-white">
-                      {user.name?.charAt(0).toUpperCase() || "U"}
+                      {user.username?.charAt(0).toUpperCase() || "U"}
                     </div>
-                    <span className="font-medium">{user.name || "User"}</span>
+                    <span className="font-medium">
+                      {user?.username || "User"}
+                    </span>
                   </div>
                   <button
                     onClick={() => {
