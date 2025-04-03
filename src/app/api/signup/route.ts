@@ -42,7 +42,11 @@ export async function POST(req: Request) {
       } else {
         // Update the details with new password
         const hashPassword = await bcrypt.hash(password, 10);
-        verifyCode = (Math.random() * 100000 + 90000).toFixed(0).toString();
+        // fix verify code
+        const verifyCode = Math.floor(
+          100000 + Math.random() * 900000
+        ).toString();
+
         const verifyCodeExpiry = new Date(Date.now() + 3600000);
 
         existingUserByEmail.username = username;
@@ -55,7 +59,8 @@ export async function POST(req: Request) {
     } else {
       // First time user with this email
       const hashPassword = await bcrypt.hash(password, 10);
-      verifyCode = (Math.random() * 100000 + 90000).toFixed(0).toString();
+      verifyCode = Math.floor(100000 + Math.random() * 900000).toString();
+      console.log(verifyCode);
       const expiryDate = new Date(Date.now() + 3600000);
 
       user = new UserModel({
