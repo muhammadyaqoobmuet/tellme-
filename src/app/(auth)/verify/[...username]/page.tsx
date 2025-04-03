@@ -1,14 +1,14 @@
 "use client";
+import * as React from "react";
 import {
   InputOTP,
   InputOTPGroup,
-  InputOTPSeparator,
   InputOTPSlot,
 } from "@/components/ui/input-otp";
 import { Button } from "@/components/ui/button";
 
 import { useParams, useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import { toast } from "sonner";
 import { motion } from "framer-motion";
@@ -41,10 +41,6 @@ const Verify = () => {
     }
     return () => clearInterval(timer);
   }, [resendCooldown]);
-
-  const handleComplete = (value: string) => {
-    setOtp(value);
-  };
 
   const sendAgain = async () => {
     if (resendCooldown > 0) return; // Prevent resend if still in cooldown
@@ -95,53 +91,50 @@ const Verify = () => {
   };
 
   return (
-    <div className="flex justify-center items-center min-h-screen bg-[#0f0f0f] px-4">
+    <div className="flex justify-center items-center min-h-screen bg-[#0f0f0f] px-3 sm:px-4 md:px-6 py-8">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="w-full max-w-md p-8 space-y-8 bg-gradient-to-b from-gray-900 to-black rounded-2xl shadow-2xl border border-gray-800"
+        className="w-full max-w-sm md:max-w-md p-4 sm:p-6 md:p-8 space-y-4 sm:space-y-6 md:space-y-8 bg-gradient-to-b from-gray-900 to-black rounded-xl sm:rounded-2xl shadow-2xl border border-gray-800"
       >
-        <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold text-white bg-clip-text ">
+        <div className="space-y-1 sm:space-y-2 text-center">
+          <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white bg-clip-text">
             Verify Your Account
           </h1>
-          <p className="text-gray-400">
+          <p className="text-xs sm:text-sm md:text-base text-gray-400">
             Enter the 6-digit code sent to your device
           </p>
         </div>
 
-        <div className="relative">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-xl blur-xl"></div>
-          <div className="relative py-10 px-6 backdrop-blur-sm bg-black/30 rounded-xl border border-gray-700">
-            <InputOTP
-              maxLength={6}
-              onComplete={handleComplete}
-              className="justify-center gap-4"
-            >
-              <InputOTPGroup>
-                {[0, 1, 2].map((index) => (
-                  <InputOTPSlot
-                    key={index}
-                    index={index}
-                    className="w-12 h-14 text-center rounded-lg bg-gray-800 text-white border-gray-700 focus:border-blue-500 transition-all"
-                  />
+        <div className="relative mt-4 sm:mt-6 mb-4 sm:mb-6">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-lg sm:rounded-xl blur-xl"></div>
+          <div className="relative py-6 sm:py-8 md:py-10 px-3 sm:px-5 md:px-6 backdrop-blur-sm bg-black/30 rounded-lg sm:rounded-xl border border-gray-700">
+            {/* Custom styled OTP input with proper spacing */}
+            <div className="flex justify-center">
+              <div className="grid grid-cols-6 gap-2 sm:gap-3 md:gap-4">
+                {Array.from({ length: 6 }).map((_, index) => (
+                  <div key={index} className="w-full flex justify-center">
+                    <InputOTP
+                      maxLength={6}
+                      value={otp}
+                      onChange={(value) => setOtp(value)}
+                      className="hidden"
+                    >
+                      <InputOTPGroup>
+                        <InputOTPSlot
+                          index={index}
+                          className="w-9 h-10 sm:w-11 sm:h-12 md:w-14 md:h-16 text-center rounded-md sm:rounded-lg bg-gray-800 text-white border-gray-700 focus:border-blue-500 transition-all shadow-md"
+                        />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </div>
                 ))}
-              </InputOTPGroup>
-              <InputOTPSeparator className="text-gray-500">-</InputOTPSeparator>
-              <InputOTPGroup>
-                {[3, 4, 5].map((index) => (
-                  <InputOTPSlot
-                    key={index}
-                    index={index}
-                    className="w-12 h-14 text-center rounded-lg bg-gray-800 text-white border-gray-700 focus:border-blue-500 transition-all"
-                  />
-                ))}
-              </InputOTPGroup>
-            </InputOTP>
+              </div>
+            </div>
 
-            <div className="mt-8">
-              <p className="text-gray-400 text-sm text-center mb-4">
+            <div className="mt-6 sm:mt-8">
+              <p className="text-gray-400 text-xs sm:text-sm text-center">
                 Didn&apos;t receive a code?{" "}
                 <button
                   onClick={sendAgain}
@@ -160,12 +153,12 @@ const Verify = () => {
         <Button
           onClick={handleVerify}
           disabled={isVerifying}
-          className="w-full py-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-xl font-medium text-lg transition-all"
+          className="w-full py-4 sm:py-5 md:py-6 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 rounded-lg sm:rounded-xl font-medium text-sm sm:text-base md:text-lg transition-all shadow-lg"
         >
           {isVerifying ? (
             <div className="flex items-center justify-center">
               <svg
-                className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
+                className="animate-spin -ml-1 mr-2 sm:mr-3 h-4 w-4 sm:h-5 sm:w-5 text-white"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -191,10 +184,10 @@ const Verify = () => {
           )}
         </Button>
 
-        <div className="text-center">
+        <div className="text-center pt-1 sm:pt-2">
           <Link
-            href={"/signup"}
-            className="text-gray-400 hover:text-gray-300 text-sm transition"
+            href={"/signin"}
+            className="text-gray-400 hover:text-gray-300 text-xs sm:text-sm transition"
           >
             Back to login
           </Link>
