@@ -16,7 +16,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-
+import { motion } from "framer-motion";
 const Dashboard = () => {
   const [messages, setMessages] = useState<IMessage[]>([]);
   const [loading, setLoading] = useState(false);
@@ -210,14 +210,25 @@ const Dashboard = () => {
               variant="default"
               onClick={fetchMessages}
               disabled={loading}
-              className="text-black hover:text-white hover:border"
+              className="relative cursor-pointer overflow-hidden border border-white text-purple-200 hover:text-white"
             >
-              {loading ? (
-                <Loader2 className="h-4 w-4 animate-spin mr-2" />
-              ) : (
-                <RefreshCcw className="h-4 w-4 mr-2" />
-              )}
-              Refresh
+              {/* Shine animation overlay */}
+              <motion.span
+                className="pointer-events-none absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                initial={{ x: "-100%" }}
+                whileHover={{ x: "100%" }}
+                transition={{ duration: 0.75, ease: "easeInOut" }}
+              />
+
+              {/* Content wrapper to keep text and icons above the shine */}
+              <span className="relative flex items-center">
+                {loading ? (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  <RefreshCcw className="mr-2 h-4 w-4" />
+                )}
+                Refresh
+              </span>
             </Button>
           </div>
 
