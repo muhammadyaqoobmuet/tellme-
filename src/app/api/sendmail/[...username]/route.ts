@@ -1,16 +1,18 @@
 import { dbConnect } from "@/lib/dbConnect";
 import { UserModel } from "@/models/user.model";
+import type { NextRequest } from "next/server";
 import nodemailer from "nodemailer";
 
 export async function GET(
-  request: Request,
-  { params }: { params: Promise<{ username: string }> }
+  request: NextRequest,
+  { params }: { params: Promise<{ username: string[] }> }
 ) {
-  // Convert the incoming request to JSON
+  // Extract username from catch-all route params (array)
   const { username } = await params;
+  const usernameValue = Array.isArray(username) ? username[0] : username;
 
   await dbConnect();
-  const user = await UserModel.findOne({ username });
+  const user = await UserModel.findOne({ username: usernameValue });
   const verificationCode = user?.verifyCode;
   // Create the transporter
   const transporter = nodemailer.createTransport({
