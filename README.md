@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  🚀 <a href="https://tellme-eta.vercel.app/" target="_blank" style="font-size:20px; font-weight:bold;">Live Demo</a> 🌍
+  🚀 <a href="https://shadow-proximatychat.netlify.app/" target="_blank" style="font-size:20px; font-weight:bold;">Live Demo</a> 🌍
 </p>
 
 
